@@ -11,7 +11,7 @@ export class WeatherService {
     constructor(private _httpClient: HttpClient) {
     }
 
-    public getWeatherForecastByZip(zip: number): Observable<any> {
+    public getWeatherForecastByZip(zip: string): Observable<any> {
         return this._getCoodrinatesByZip(zip).pipe(
             switchMap(coordinates => {
                 let params = new HttpParams();
@@ -23,7 +23,7 @@ export class WeatherService {
         )
     }
 
-    private _getCoodrinatesByZip(zip: number): Observable<any> {
+    private _getCoodrinatesByZip(zip: string): Observable<any> {
         let params = new HttpParams();
         params.append(RequestParameters.zip, `${zip},US`);
 
