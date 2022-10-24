@@ -14,19 +14,20 @@ export class WeatherService {
     public getWeatherForecastByZip(zip: string): Observable<any> {
         return this._getCoodrinatesByZip(zip).pipe(
             switchMap(coordinates => {
-                let params = new HttpParams();
-                params.append(RequestParameters.lat, coordinates.lat);
-                params.append(RequestParameters.lon, coordinates.lon);
+                let params = new HttpParams()
+                    .set(RequestParameters.lat, coordinates.lat)
+                    .set(RequestParameters.lon, coordinates.lon);
 
-                return this._httpClient.get<any>(environment.weatherApiUrl, { params });
+                return this._httpClient.get<any>(`${environment.weatherApiUrl}`, { params });
             })
         )
     }
 
     private _getCoodrinatesByZip(zip: string): Observable<any> {
-        let params = new HttpParams();
-        params.append(RequestParameters.zip, `${zip},US`);
+        let params = new HttpParams()
+            .set(RequestParameters.zip, `${zip},US`)
 
-        return this._httpClient.get<any>(environment.geocodingApiUrl, { params });
+        return this._httpClient.get<any>(
+            `${environment.geocodingApiUrl}`, { params });
     }
 }

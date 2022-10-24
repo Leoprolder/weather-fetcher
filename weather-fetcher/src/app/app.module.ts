@@ -33,7 +33,7 @@ import { WeatherInfoComponent } from './components/weather-info/weather-info.com
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-     }
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -13,14 +13,19 @@ export class ZipCodeFormComponent implements OnInit {
     @Output() onLoadWeather = new EventEmitter();
     public form: FormGroup = new FormGroup({
         'zip': new FormControl("", [Validators.required, Validators.pattern(/^[0-9]{5}(?:-[0-9]{4})?$/)])
-    })
+    });
+    public waitForWeatherLoad = false;
 
     constructor(private _weatherService: WeatherService) { }
 
     ngOnInit() { }
 
     public getWeather(): void {
+        this.waitForWeatherLoad = true;
         this._weatherService.getWeatherForecastByZip(this.form.controls['zip'].value)
-            .subscribe(weather => this.onLoadWeather.emit(weather));
+            .subscribe({
+                next: (weather) => this.onLoadWeather.emit(weather),
+                complete: () => this.waitForWeatherLoad = false
+            });
     }
 }

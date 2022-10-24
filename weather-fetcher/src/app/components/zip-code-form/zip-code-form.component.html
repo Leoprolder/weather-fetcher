@@ -1,18 +1,23 @@
-<h1>
-    <form [formGroup]="form">
-        <div class="row">
-            <mat-form-field appearance="outline" class="col">
-                <mat-label>ZIP-code</mat-label>
-                <input matInput formControlName="zip" />
-            </mat-form-field>
-            <button
-                [disabled]="form.invalid"
-                class="col"
-                mat-raised-button
-                color="primary"
-                (click)="getWeather()">
+<h1>waitForWeatherLoad: {{waitForWeatherLoad}}</h1>
+<form [formGroup]="form">
+    <div class="row">
+        <mat-form-field class="col">
+            <mat-label>ZIP-code</mat-label>
+            <input maxlength="5" matInput formControlName="zip" />
+        </mat-form-field>
+        <button
+            class="col"
+            [disabled]="form.invalid || waitForWeatherLoad"
+            mat-raised-button
+            color="primary"
+            (click)="getWeather()">
+            <span *ngIf="!waitForWeatherLoad else waitTemplate">
                 Find weather
-            </button>
-        </div>
-    </form>
-</h1>
+            </span>
+        </button>
+    </div>
+</form>
+
+<ng-template #waitTemplate>
+    <span>Wait for it...</span>
+</ng-template>

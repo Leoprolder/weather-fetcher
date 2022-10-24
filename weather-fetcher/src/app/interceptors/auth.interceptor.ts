@@ -9,9 +9,12 @@ import { RequestParameters } from "../constants/request-parameters.contants";
 })
 export class AuthInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        let params = new HttpParams();
-        params.append(RequestParameters.appid, environment.apiKey);
+        let params = req.params
+            .set(RequestParameters.appid, environment.apiKey);
         
-        return next.handle(req.clone({ params }));
+        return next.handle(req.clone(
+            {
+                params: params
+            }));
     }
 }
