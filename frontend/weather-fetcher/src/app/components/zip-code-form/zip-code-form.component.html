@@ -1,0 +1,22 @@
+<form [formGroup]="form">
+    <div class="row">
+        <mat-form-field class="col">
+            <mat-label>ZIP-code</mat-label>
+            <input maxlength="5" matInput formControlName="zip" />
+        </mat-form-field>
+        <button
+            class="col"
+            [disabled]="form.invalid || waitForWeatherLoad"
+            mat-raised-button
+            color="primary"
+            (click)="getWeather()">
+            <span *ngIf="!waitForWeatherLoad else waitTemplate">
+                Find weather
+            </span>
+        </button>
+    </div>
+</form>
+
+<ng-template #waitTemplate>
+    <span>Wait for it...</span>
+</ng-template>
