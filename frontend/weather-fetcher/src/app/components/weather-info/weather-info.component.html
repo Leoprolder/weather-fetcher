@@ -1,2 +1,2 @@
 <zip-code-form (onLoadWeather)="loadWeather($event)"></zip-code-form>
-{{weather | json}}
+<query-history [queryHistory]="queries$ | async"></query-history>

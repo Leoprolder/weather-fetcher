@@ -1,9 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using WeatherFetcher.Constants;
+using WeatherFetcher.DbContexts;
+using WeatherFetcher.Models.Entity;
 using WeatherFetcher.Models.Response;
 using WeatherFetcher.ServiceContracts;
 
@@ -30,11 +35,40 @@ namespace WeatherFetcher.Services
                 var result = (JObject)JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
                 var currentTemperature = (double)result["main"]["temp"];
 
+                using (var context = new SqlContext())
+                {
+                    context.Add(new WeatherRequestByZip()
+                    {
+                        City = coordinatesResponse.City,
+                        Temperature = currentTemperature,
+                        Time = DateTime.UtcNow,
+                        Zip = zip
+                    });
+
+                    await context.SaveChangesAsync();
+                }
+
                 return new WeatherResponse()
                 {
                     City = coordinatesResponse.City,
-                    CurrentTemperature = currentTemperature
+                    Temperature = currentTemperature,
+                    Time = DateTime.UtcNow,
+                    Zip = zip
                 };
+            }
+        }
+
+        public async Task<IEnumerable<WeatherResponse>> GetQueryHistoryAsync()
+        {
+            using (var context = new SqlContext())
+            {
+                return await context.WeatherRequestByZip.Select(r => new WeatherResponse()
+                {
+                    City = r.City,
+                    Temperature = r.Temperature,
+                    Time = r.Time,
+                    Zip = r.Zip
+                }).ToListAsync();
             }
         }
 

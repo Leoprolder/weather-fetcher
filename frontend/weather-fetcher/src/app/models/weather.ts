@@ -1,4 +1,6 @@
-export class Weather {
-    public city: string;
-    public currentTemperature: number;
+export interface Weather {
+    zip: string;
+    city: string;
+    temperature: number;
+    time: Date;
 }

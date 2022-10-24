@@ -1,3 +1,9 @@
-<h2>
-    query-history
-</h2>
+<h2>History of queries</h2>
+<div class="container">
+    <mat-card class="query" *ngFor="let query of queryHistory">
+        <mat-card-subtitle>zip: {{query.zip}}</mat-card-subtitle>
+        <mat-card-title>{{query.temperature}}F</mat-card-title>
+        <mat-card-content>city: {{!!query.city ? query.city : 'None'}}</mat-card-content>
+        <mat-card-footer class="query-date">{{query.time | date:'medium'}} UTC</mat-card-footer>
+    </mat-card>
+</div>

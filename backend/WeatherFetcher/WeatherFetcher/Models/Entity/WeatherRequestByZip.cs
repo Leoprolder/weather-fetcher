@@ -1,4 +1,6 @@
-﻿namespace WeatherFetcher.Models.Entity
+﻿using System;
+
+namespace WeatherFetcher.Models.Entity
 {
     public class WeatherRequestByZip
     {
@@ -6,5 +8,6 @@
         public string Zip { get; set; }
         public string City { get; set; }
         public double Temperature { get; set; }
+        public DateTime Time { get; set; }
     }
 }

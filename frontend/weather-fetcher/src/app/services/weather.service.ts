@@ -14,6 +14,10 @@ export class WeatherService {
 
     public getWeatherForecastByZip(zip: string): Observable<Weather> {
         let params = new HttpParams().set("zip", zip)
-        return this._httpClient.get<Weather>(`${environment.apiUrl}/weather`, { params })
+        return this._httpClient.get<Weather>(`${environment.apiUrl}/weather/getCityAndCurrentTemperature`, { params })
+    }
+
+    public getQueryHistory(): Observable<Weather[]> {
+        return this._httpClient.get<Weather[]>(`${environment.apiUrl}/weather/getQueryHistory`);
     }
 }

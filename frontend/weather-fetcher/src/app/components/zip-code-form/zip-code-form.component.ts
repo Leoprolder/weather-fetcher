@@ -5,8 +5,7 @@ import { WeatherService } from 'src/app/services/weather.service';
 @Component({
     selector: 'zip-code-form',
     templateUrl: 'zip-code-form.component.html',
-    styleUrls: [ 'zip-code-form.component.scss' ],
-    providers: [ WeatherService ]
+    styleUrls: [ 'zip-code-form.component.scss' ]
 })
 
 export class ZipCodeFormComponent implements OnInit {
@@ -25,7 +24,10 @@ export class ZipCodeFormComponent implements OnInit {
         this._weatherService.getWeatherForecastByZip(this.form.controls['zip'].value)
             .subscribe({
                 next: (weather) => this.onLoadWeather.emit(weather),
-                complete: () => this.waitForWeatherLoad = false
+                complete: () => {
+                    this.waitForWeatherLoad = false;
+                    this.form.controls['zip'].setValue("");
+                }
             });
     }
 }
