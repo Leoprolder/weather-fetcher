@@ -42,14 +42,6 @@ namespace WeatherFetcher
                     httpClient.BaseAddress = new Uri(Configuration.GetSection("OpenWeatherServices")
                         .GetSection("WeatherApiUrl").Value
                             + $"?appid={Configuration.GetSection("OpenWeatherServices").GetSection("ApiKey").Value}");
-                })
-                .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler()
-                {
-                    Proxy = new WebProxy()
-                    {
-                        UseDefaultCredentials = true
-                    },
-                    DefaultProxyCredentials = CredentialCache.DefaultNetworkCredentials
                 });
             services
                 .AddHttpClient(NamedHttpClients.GeocodingApi, httpClient =>
@@ -57,14 +49,6 @@ namespace WeatherFetcher
                     httpClient.BaseAddress = new Uri(Configuration.GetSection("OpenWeatherServices")
                         .GetSection("GeocodingApiUrl").Value
                             + $"?appid={Configuration.GetSection("OpenWeatherServices").GetSection("ApiKey").Value}");
-                })
-                .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler()
-                {
-                    Proxy = new WebProxy()
-                    {
-                        UseDefaultCredentials = true
-                    },
-                    DefaultProxyCredentials = CredentialCache.DefaultNetworkCredentials
                 });
             
             services.AddTransient<IWeatherService, WeatherService>();
